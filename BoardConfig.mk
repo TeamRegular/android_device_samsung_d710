@@ -32,6 +32,9 @@ TARGET_KERNEL_CONFIG := cyanogenmod_d710_defconfig
 # Notification LED
 BOARD_HAS_LED_NOTIF := true
 
+# RIL
+BOARD_MODEM_TYPE := xmm6262
+
 # Recovery
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/d710/recovery/recovery_keys.c
 BOARD_UMS_LUNFILE := "/sys/devices/platform/s3c-usbgadget/gadget/lun%d/file"
