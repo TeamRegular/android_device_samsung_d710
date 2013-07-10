@@ -30,6 +30,9 @@ on init
 
 on fs
     mount_all /fstab.smdk4210
+
+    mkdir /efs/bluetooth
+    mkdir /efs/wifi
     chown radio system /efs/bluetooth
     chown radio system /efs/wifi
     chmod 0775 /efs/bluetooth
@@ -170,19 +173,7 @@ on post-fs-data
     chown system radio /sys/devices/platform/sec-battery/power_supply/battery/batt_vfocv
     chown system radio /sys/devices/platform/sec-battery/power_supply/battery/batt_soc
     chown system radio /sys/devices/platform/sec-battery/power_supply/battery/batt_vol
-    chown system radio /sys/devices/platform/sec-battery/power_supply/battery/batt_current_now
-    chown system radio /sys/devices/platform/sec-battery/power_supply/battery/batt_temp_radc
-    chown system radio /sys/devices/platform/sec-battery/power_supply/battery/batt_tmu_status
-    chown system radio /sys/devices/platform/sec-battery/power_supply/battery/current_avg
-    chown system radio /sys/devices/platform/sec-battery/power_supply/battery/fg_soc
-    chown system radio /sys/devices/platform/sec-battery/power_supply/battery/siop_activated
-    chown system radio /sys/devices/platform/sec-battery/power_supply/battery/slate_test_mode
-    chown system radio /sys/devices/platform/sec-battery/power_supply/battery/hotspot
-    chown system radio /sys/devices/platform/sec-battery/power_supply/battery/data_call
-    chown system radio /sys/devices/platform/sec-battery/power_supply/battery/call
     chown system radio /sys/devices/platform/sec-battery/power_supply/battery/wimax
-    chown system radio /sys/devices/platform/sec-battery/power_supply/battery/browser
-    chown system radio /sys/devices/platform/sec-battery/power_supply/battery/camera
 
     chown system system /sys/class/backlight/panel/brightness
     chown system system /sys/class/power_supply/battery/temp
@@ -261,7 +252,8 @@ on post-fs-data
     chown system media_rw /sys/class/mdnie/mdnie/outdoor
     chown system media_rw /sys/class/mdnie/mdnie/scenario
     chown system media_rw /sys/class/mdnie/mdnie/negative
-    write /sys/class/mdnie/mdnie/scenario 4
+    write /sys/class/mdnie/mdnie/scenario 0
+    write /sys/class/mdnie/mdnie/mode 1
 
 # Permissions for uart_sel and usb_sel
     chown system radio /sys/class/sec/switch/uart_sel/value
@@ -348,12 +340,6 @@ on boot
 
     setprop ro.radio.noril yes
 
-on property:ril.cdma.data_state=1
-    restart pppd_cdma
-
-on property:ril.cdma.data_state=0
-    stop pppd_cdma
-
     setprop wifi.interface wlan0
 
 # Device Encryption by B2B Security Lab.
@@ -371,52 +357,11 @@ service cpboot-daemon /sbin/cbd -d -p 8
     user root
     group radio cache inet misc audio sdcard_rw log sdcard_r
 
-# bluetooth mac address
-service bdaddr /system/bin/bdaddr_read
-    class main
-    user root
-    disabled
-    oneshot
-
-# Wimax changes
-service dhcpcd_uwbr0 /system/bin/dhcpcd -ABKL
-    class main
-    disabled
-    oneshot
-
-service iprenew_uwbr0 /system/bin/dhcpcd -n
-    class main
-    disabled
-    oneshot
-
-# Bluetooth PAN
-service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
-    class main
-    disabled
-    oneshot
-
-service iprenew_bnep0 /system/bin/dhcpcd -n
-    class main
-    disabled
-    oneshot
-
-service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
-    class main
-    disabled
-    oneshot
-
-service dhcpcd_p2p /system/bin/dhcpcd -aABKL
-    class main
-    disabled
-    oneshot
-
-service iprenew_wlan0 /system/bin/dhcpcd -n
-    class main
-    disabled
-    oneshot
-
-service iprenew_p2p /system/bin/dhcpcd -n
-    class main
+service mdnsd /system/bin/mdnsd
+	class main
+    user mdnsr
+    group inet net_raw
+    socket mdnsd stream 0660 mdnsr inet
     disabled
     oneshot
 
@@ -437,45 +382,62 @@ service wpa_supplicant /system/bin/wpa_supplicant \
     disabled
     oneshot
 
-service immvibed /system/bin/immvibed
-    class core
-    user shell
-    group shell
+service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
+    class main
+    disabled
     oneshot
 
-service initd /system/xbin/busybox run-parts /system/etc/init.d
+service dhcpcd_p2p /system/bin/dhcpcd -aABKL
+    class main
+    disabled
+    oneshot
+
+service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
+	class main
+	disabled
+	oneshot
+
+service iprenew_wlan0 /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
+
+service iprenew_p2p /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
+
+service iprenew_bnep0 /system/bin/dhcpcd -n
+	class main
+	disabled
+	oneshot
+
+# bluetooth mac address
+service bdaddr /system/bin/bdaddr_read
+    class main
     user root
-    oneshot
-    disabled
-
-service mfgloader /system/bin/mfgloader
-    class main
     disabled
     oneshot
-
-service macloader /system/bin/macloader
+     
+# bugreport is triggered by holding down volume down, volume up and power
+service bugreport /system/bin/bugmailer.sh -v
     class main
+    disabled
+    oneshot
+    keycodes 114 115 116
+
+# Wimax changes
+service dhcpcd_uwbr0 /system/bin/dhcpcd -ABKL
+    class main
+    disabled
     oneshot
 
-on property:init.svc.macloader=stopped
-    chown system root /data/.cid.info
-    chmod 0664 /data/.cid.info
-    chown system root /data/.rev
-    chmod 0660 /data/.rev
-
-service gpsd /system/bin/gpsd
+service iprenew_uwbr0 /system/bin/dhcpcd -n
     class main
-    user system
-    group system inet
+    disabled
+    oneshot
 
 service wimax_route /system/bin/route add default dev uwbr0
     class main
-    disabled
-    oneshot
-
-service pppd_cdma /system/bin/pppd_runner
-    class main
-    user root
-    group radio cache inet misc system
     disabled
     oneshot

@@ -48,13 +48,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vold.umsdirtyratio=20
 
-# Net
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/ip-up:system/etc/ppp/ip-up \
-    $(LOCAL_PATH)/configs/ip-down:system/etc/ppp/ip-down
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/gps.conf:system/etc/gps.conf \
     $(LOCAL_PATH)/configs/sirfgps.conf:system/etc/sirfgps.conf \
     $(LOCAL_PATH)/configs/apns-conf.xml:system/etc/apns-conf.xml
 
@@ -108,15 +102,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.com.google.clientidbase=android-sprint-us \
     ro.cdma.home.operator.numeric=310120 \
     ro.cdma.home.operator.alpha=Sprint \
-    net.cdma.pppd.authtype=require-pap \
-    net.cdma.pppd.user=user[SPACE]SprintNextel \
-    net.cdma.datalinkinterface=/dev/ttyCDMA0 \
-    net.interfaces.defaultroute=cdma \
-    net.cdma.ppp.interface=ppp0 \
     ro.wimax.interface=uwbr0 \
-    net.connectivity.type=CDMA1 \
     mobiledata.interfaces=ppp0,wlan0,uwbr0 \
-    ro.ril.samsung_cdma=true \
     ro.carrier=Sprint
 
 # enable Google-specific location features,
