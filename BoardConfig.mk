@@ -33,7 +33,9 @@ TARGET_KERNEL_CONFIG := cyanogenmod_d710_defconfig
 BOARD_HAS_LED_NOTIF := true
 
 # RIL
-BOARD_MODEM_TYPE := xmm6262
+BOARD_MOBILEDATA_INTERFACE_NAME := "ppp0"
+BOARD_RIL_CLASS := "../../../device/samsung/d710/libril/"
+BOARD_PROVIDES_LIBRIL := false
 
 # Recovery
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/d710/recovery/recovery_keys.c
