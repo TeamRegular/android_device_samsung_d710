@@ -9,5 +9,5 @@
 /data		ext4		/dev/block/mmcblk0p10
 /preload	ext4		/dev/block/mmcblk0p12
 
-/sdcard		vfat		/dev/block/mmcblk0p11
-/external_sd	vfat		/dev/block/cyasblkdevblk0p1  fstype2=ext4
+/sdcard		auto		/dev/block/mmcblk0p11
+/external_sd	auto		/dev/block/cyasblkdevblk0p1  /dev/block/cyasblkdevblk0
