@@ -350,6 +350,8 @@ on post-fs-data
 on boot
     mount debugfs /sys/kernel/debug /sys/kernel/debug
 
+    setprop ro.radio.noril yes
+
 on property:ril.cdma.data_state=1
     restart pppd_cdma
 
