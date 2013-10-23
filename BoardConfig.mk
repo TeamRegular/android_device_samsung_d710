@@ -44,8 +44,10 @@ BOARD_SEPOLICY_UNION := \
 BOARD_HAS_LED_NOTIF := true
 
 # RIL
-BOARD_PROVIDES_LIBRIL := true
-BOARD_MOBILEDATA_INTERFACE_NAME := "ppp0"
+BOARD_PROVIDES_LIBRIL := false
+
+# Device specific headers
+TARGET_SPECIFIC_HEADER_PATH := device/samsung/d710/include
 
 # Recovery
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/d710/recovery/recovery_keys.c
