@@ -55,7 +55,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sirfgps.conf:system/etc/sirfgps.conf
 
 # Sensors
-PRODUCT_PACKAGES := \
+PRODUCT_PACKAGES += \
     sensors.exynos4
 
 # WIMAX
