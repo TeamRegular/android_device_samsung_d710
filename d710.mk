@@ -49,7 +49,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Net
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/ip-up:system/etc/ppp/ip-up \
-    $(LOCAL_PATH)/configs/ip-down:system/etc/ppp/ip-down
+    $(LOCAL_PATH)/configs/ip-down:system/etc/ppp/ip-down \
+    $(LOCAL_PATH)/configs/chap-secrets:system/etc/ppp/chap-secrets \
+    $(LOCAL_PATH)/configs/pap-secrets:system/etc/ppp/pap-secrets
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/gps.conf:system/etc/gps.conf \
@@ -104,8 +106,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.default_network=4 \
     ro.com.google.clientidbase=android-sprint-us \
-    ro.cdma.home.operator.numeric=310120 \
-    ro.cdma.home.operator.alpha=Sprint \
+    ro.cdma.home.operator.numeric=310090 \
+    ro.cdma.home.operator.alpha=Cricket \
     net.cdma.pppd.authtype=require-pap \
     net.cdma.pppd.user=user[SPACE]SprintNextel \
     net.cdma.datalinkinterface=/dev/ttyCDMA0 \
