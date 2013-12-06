@@ -24,7 +24,7 @@ TARGET_BOARD_INFO_FILE := device/samsung/d710/board-info.txt
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/d710/bluetooth
 
 # Kernel Config
-TARGET_KERNEL_SOURCE := kernel/blasphemy
+TARGET_KERNEL_SOURCE := kernel/samsung/smdk4412
 TARGET_KERNEL_CONFIG := cyanogenmod_d710_defconfig
 
 # TWRP Flags
@@ -34,10 +34,6 @@ TARGET_RECOVERY_PIXEL_FORMAT := "RGB_565"
 TW_INCLUDE_INJECTTWRP := true
 TW_HAS_DOWNLOAD_MODE := true
 TW_NO_REBOOT_BOOTLOADER := true
-TW_INTERNAL_STORAGE_PATH := "/sdcard"
-TW_INTERNAL_STORAGE_MOUNT_POINT := "sdcard"
-TW_EXTERNAL_STORAGE_PATH := "/external_sd"
-TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
 BOARD_HAS_NO_REAL_SDCARD := true
 
 # Selinux

@@ -23,11 +23,17 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product, device/samsung/d710/d710.mk)
 
+# Inherit from our omni product configuration
+$(call inherit-product, vendor/omni/config/common.mk)
+
+# Pull in CDMA-specific stuff such as APNs
+$(call inherit-product, vendor/omni/config/cdma.mk)
+
 
 # Discard inherited values and use our own instead.
-PRODUCT_NAME := full_d710
+PRODUCT_NAME := omni_d710
 PRODUCT_DEVICE := d710
 PRODUCT_BRAND := samsung
-PRODUCT_MANUFACTURER := samsung
+PRODUCT_MANUFACTURER := Samsung
 PRODUCT_MODEL := SPH-D710
 
